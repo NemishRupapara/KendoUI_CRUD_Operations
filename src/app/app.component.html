@@ -1,0 +1,66 @@
+<kendo-grid
+[kendoGridBinding]="products"
+[kendoGridReactiveEditing]="createFormGroup"
+[removeConfirmation]="removeConfirmation"
+[pageSize]="5"
+[pageable]="true"
+[sortable]="true"
+
+
+(save)="handleSave($event)"
+>
+   <ng-template kendoGridToolbarTemplate>
+      <button kendoGridAddCommand>Add new item</button>
+  </ng-template>
+  <kendo-grid-column field="ProductName" title="Product Name"  ></kendo-grid-column>
+  <kendo-grid-column field="UnitPrice" editor="numeric" title="Price"></kendo-grid-column>
+  <kendo-grid-column field="UnitsInStock" editor="numeric" title="Units In Stock"></kendo-grid-column>
+  <kendo-grid-column field="sell" editor="numeric" title="Sell"></kendo-grid-column>
+  <kendo-grid-column field="remainingstock" editor="numeric" title="Remaining" >
+    <!-- <ng-template kendoGridCellTemplate let-dataItem>
+      {{ dataItem.UnitsInStock - dataItem.sell }}
+    </ng-template> -->
+  </kendo-grid-column>
+
+
+  <!-- <kendo-grid-column field="Discontinued" editor="boolean" title="Discontinued"></kendo-grid-column> -->
+  <kendo-grid-command-column title="command" [width]="220">
+      <ng-template kendoGridCellTemplate let-isNew="isNew" >
+          <button kendoGridEditCommand [primary]="true">Edit</button>
+          <button kendoGridRemoveCommand>Remove</button>
+          <button kendoGridSaveCommand >Save</button>
+          <button kendoGridCancelCommand>{{ isNew ? 'Discard changes' : 'Cancel' }}</button>
+      </ng-template>
+  </kendo-grid-command-column>
+</kendo-grid>
+<kendo-dialog title="Please confirm" *ngIf="itemToRemove" (close)="confirmRemove(false)">
+  <p style="margin: 30px; text-align: center;">Are you sure you want to delete product {{ itemToRemove.ProductName }}?</p>
+  <kendo-dialog-actions >
+      <button kendoButton (click)="confirmRemove(false)">No</button>
+      <button kendoButton themeColor="primary" (click)="confirmRemove(true)" [primary]="true">Yes</button>
+  </kendo-dialog-actions>
+</kendo-dialog>
+
+<!-- <button (click)="check()">check</button> -->
+
+<!-- <div class="row example-wrapper">
+  <div class="col-xs-12 col-md-6 example-col">
+    <p>Select a date (Infinite Calendar):</p>
+    <kendo-datepicker
+      calendarType="infinite"
+      [(value)]="value"
+    ></kendo-datepicker>
+  </div>
+  <div class="col-xs-12 col-md-6 example-col">
+    <p>Select a date (Classic Calendar):</p>
+    <kendo-datepicker
+      calendarType="classic"
+      [(value)]="value2"
+    ></kendo-datepicker>
+  </div>
+</div>
+<div class="example-config">
+  <h3>Selected value is: {{ value | date:"MM/dd/yy"  }}</h3>
+</div> -->
+<!-- <button (click)="calculateDate()">Calculate</button> -->
+<!-- <h2>{{dateDifference }}</h2> -->
